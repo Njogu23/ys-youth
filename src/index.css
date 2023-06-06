@@ -1,13 +1,134 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* body {
+    text-align: center;
+  }
+  
+  .sign-up-div {
+    margin: auto;
+    width: 30%;
+    align-items: center;
+    background-color: rgb(134, 238, 241);
+    border-radius: 10px;
+    overflow: -moz-hidden-unscrollable;
+  }
+  
+  .signUpForm {
+    display: flex;
+    flex-direction: column;
+    padding: 100px;
+  }
+  
+  input {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+  }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  select {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+  }
+  
+  button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+  }
+  
+  @media (max-width: 1100px) {
+    .sign-up-div {
+      width: 50%
+    }
+  
+    .signUpForm {
+      padding: 80px;
+    }
+  }
+  
+  @media (max-width: 880px) {
+    .sign-up-div {
+      width: 60%
+    }
+  
+    .signUpForm {
+      padding: 80px;
+    }
+  }
+  
+  @media (max-width: 725px) {
+    .signUpForm {
+      padding: 80px;
+    }
+  }
+  
+  @media (max-width: 530px) {
+    .sign-up-div {
+      width: 80%
+    }
+  
+    .signUpForm {
+      padding: 60px;
+    }
+  }
+  
+  @media (max-width: 330px) {
+    .sign-up-div {
+      width: 90%
+    }
+  
+    .signUpForm {
+      padding: 20px;
+    }
+  }
+  
+  
+   */
+
+   *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.todo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+ 
+.todo {
+    width: 70%;
+    margin: 3rem auto 0 auto;    
+}
+ 
+.header {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+ 
+input {
+    padding: 10px 3px;
+    width: 100%;
+}
+ 
+.btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+ 
+.btn {
+    padding: 10px 1rem;
+    background: #334;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+ 
+.todo-content {
+    margin-top: 2rem;
 }
