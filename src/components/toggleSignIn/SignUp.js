@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { MyContext } from '../../MyContext';
 
-const LoginForm = ({title, setEmail, setPassword, handleAction}) => {
+const SignUp = () => {
+ 
+    const {setEmail, setPassword, handleAction} = useContext(MyContext)
     return (
         <div style={{
             textAlign: "center"
         }}>
             <div className="heading-container">
-                <h3>User {title}</h3>
+                <h3>User SignUp</h3>
             </div>
             <Box
                 component="form"
@@ -29,11 +32,12 @@ const LoginForm = ({title, setEmail, setPassword, handleAction}) => {
                 id="password" 
                 label="Enter Password" 
                 variant="outlined" 
+                type='password'
                 onChange={(e)=> setPassword(e.target.value)}/>
             </Box>
-            <Button variant="contained" onClick={handleAction}>{title}</Button>
+            <Button onClick={()=> handleAction(2)} variant="contained">sign up</Button>
         </div>
     );
 }
 
-export default LoginForm;
+export default SignUp;

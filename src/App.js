@@ -1,34 +1,57 @@
 import React, { useEffect, useState } from "react";
-import LoginForm from "./components/auths/LoginForm";
 import Home from "./components/Home";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserSessionPersistence } from 'firebase/auth';
 import { app } from "./firebase";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { MyContext } from "./MyContext";
+import Toggle from "./components/toggleSignIn/Toggle";
+
 
 function App() {
-
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [authToken, setAuthToken] = useState(null);
+  const [ user, setUser] = useState("")
+  console.log(user.uid)
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    let authToken = sessionStorage.getItem('Auth Token')
-
-    if (!authToken) {
-      navigate('/login')
-    }
-  }, [])
+    const auth = getAuth(app);
+    
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        auth.onAuthStateChanged((user) => {
+          setUser(user)
+          if (user) {
+            user.getIdToken()
+              .then((token) => {
+                setAuthToken(token);
+                navigate('/');
+              })
+              .catch((error) => {
+                console.error('Error getting ID token:', error);
+              });
+          } else {
+            navigate('/sign-in');
+          }
+        });
+      })
+      .catch((error) => {
+        console.error('Error setting persistence:', error);
+      });
+  }, []);
 
   const handleAction = (id) => {
-    console.log("clicked")
     const auth = getAuth()
+
     if(id === 2){
       createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
         navigate('/')
+        setAuthToken(res._toKenResponse.refreshToken);
         sessionStorage.setItem('Auth Token', res._toKenResponse.refreshToken)
       })
       .catch((error) => {
@@ -40,7 +63,8 @@ function App() {
       signInWithEmailAndPassword(auth, email, password)
       .then((res) => {
         navigate('/')
-        console.log(res)
+        setAuthToken(res._toKenResponse.refreshToken);
+        sessionStorage.setItem('Auth Token', res._toKenResponse.refreshToken)
       })
       .catch((error) => {
         if(error.code === 'auth/wrong-password'){
@@ -53,15 +77,16 @@ function App() {
     
   }
 
-  return ( 
-      <div>
-        <ToastContainer />
-        <Routes>
-          <Route path='/login' element={<LoginForm title="Login" setEmail={setEmail} setPassword={setPassword} handleAction={() => handleAction()}/>} />
-          <Route path='/register' element={<LoginForm title="Register" setEmail={setEmail} setPassword={setPassword} handleAction={() => handleAction(2)} />} />
+  return (
+    <div>
+      <ToastContainer />
+      <MyContext.Provider value={{email, setEmail, password, setPassword, handleAction, authToken}}>
+      <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/sign-in' element={<Toggle />} />
         </Routes>
-      </div>
+      </MyContext.Provider>
+    </div>
   );
 }
 
